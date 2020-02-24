@@ -1,0 +1,49 @@
+@font-face {
+  font-family: 'loan';
+  src: url('./iconfont.eot');
+  src: url('./iconfont.eot?#iefix') format('embedded-opentype'),
+    url('./iconfont.woff2') format('woff2'),
+    url('./iconfont.woff') format('woff'),
+    url('./iconfont.ttf') format('truetype'),
+    url('./iconfont.svg#iconfont') format('svg');
+}
+.loan {
+  font-family: 'loan' !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.loan-pwd::before {
+  content: '\e65e';
+}
+.loan-logout::before {
+  content: '\e62a';
+}
+.loan-info::before {
+  content: '\e650';
+}
+.loan-repayment::before {
+  content: '\e618';
+}
+.loan-my-loan::before {
+  content: '\e628';
+}
+.loan-edit-pwd::before {
+  content: '\e608';
+}
+.loan-yhk::before {
+  content: '\e64f';
+}
+.loan-id-info::before {
+  content: '\e64c';
+}
+.loan-person-info::before {
+  content: '\e75a';
+}
+.loan-closed::before {
+  content: '\e746';
+}
+.loan-opened::before {
+  content: '\e6a7';
+}
