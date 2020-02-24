@@ -1,0 +1,395 @@
+/*
+  YUI 3.6.0 (build 5521)
+  Copyright 2012 Yahoo! Inc. All rights reserved.
+  Licensed under the BSD License.
+  http://yuilibrary.com/license/
+  */
+* {
+  outline: none;
+}
+html {
+  color: #323333;
+}
+
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+textarea,
+p,
+blockquote,
+th,
+td {
+  margin: 0;
+  padding: 0;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+fieldset,
+img {
+  border: 0;
+  vertical-align: middle;
+}
+
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+strong,
+th,
+var {
+  font-style: normal;
+  font-weight: normal;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+caption,
+th {
+  text-align: left;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+  font-weight: normal;
+}
+
+q:before,
+q:after {
+  content: '';
+}
+
+abbr,
+acronym {
+  border: 0;
+  font-variant: normal;
+}
+
+sup {
+  vertical-align: text-top;
+}
+
+sub {
+  vertical-align: text-bottom;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+input,
+textarea,
+select {
+  *font-size: 100%;
+}
+
+button {
+  outline: none;
+}
+
+legend {
+  color: #000;
+}
+
+/*================================== 文字排版 ====================================*/
+
+.ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/*================================== 字    体 ==============================*/
+.fb {
+  font-weight: bold;
+}
+
+/*===================================== 定    位 =====================================*/
+
+.tc {
+  text-align: center;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: ' ';
+  clear: both;
+  height: 0;
+}
+.block {
+  display: block;
+}
+/*清理盒子内部浮动，无毒副作用*/
+
+.cb {
+  clear: both;
+}
+
+.pr {
+  position: relative;
+}
+
+.none {
+  display: none;
+}
+
+/* flexbox 布局样式 */
+
+.flexbox {
+  display: -webkit-flex;
+  display: flex;
+}
+
+.flex-col {
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+.flex-item {
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+.flex-start {
+  -webkit-align-content: flex-start;
+  align-content: flex-start;
+}
+
+.flex-end {
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+}
+.flex-cen {
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.flex-wrap {
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.flex-btetwm {
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+.flex-around {
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+}
+
+.flex-jc-center {
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+/* ====================================自定義系統通用樣式 ==============================*/
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  font-size: 16px;
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+}
+
+textarea {
+  resize: none;
+}
+
+/* placeholder */
+
+::-webkit-input-placeholder {
+  /* WebKit browsers */
+  color: #868e96;
+}
+
+/* 去除 type=number 瀏覽器自帶箭頭 */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+/* 隐藏 Safari 中 input 标签的 autofill 图标 */
+input::-webkit-contacts-auto-fill-button {
+  display: none !important;
+  visibility: hidden;
+  pointer-events: none;
+  position: absolute; /* 避免占用 input 元素额外的 padding，正常情况下存在 display: none!; 就可以了 */
+  right: 0;
+}
+pre {
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+/* 分頁 */
+.el-pagination {
+  display: flex;
+  padding: 5px 5px 0;
+  color: #303133;
+  justify-content: flex-end;
+  font-weight: normal;
+  .flexbox {
+    line-height: 35px;
+  }
+  .flexbox p {
+    margin-right: 10px;
+  }
+  .flexbox span {
+    min-width: auto;
+    padding: 0 3px;
+    color: #303133;
+  }
+  .el-select .el-input .el-input__inner,
+  button,
+  span:not([class*='suffix']),
+  .el-pager li {
+    height: 36px;
+  }
+  button,
+  span:not([class*='suffix']) {
+    line-height: 36px;
+  }
+  .el-pager li.btn-quicknext,
+  .el-pager li.btn-quickprev,
+  .el-pager li {
+    line-height: 34px;
+  }
+  .btn-prev {
+    border-radius: 4px 0 0 4px;
+  }
+  .btn-next {
+    border-radius: 0 4px 4px 0;
+  }
+  .btn-next,
+  .btn-prev,
+  .el-pager li {
+    min-width: 34px;
+    margin: 0;
+    background: transparent;
+    color: #606266;
+  }
+  .btn-prev,
+  .el-pager li {
+    border-right: none;
+  }
+  .el-pager li:not(.disabled):hover,
+  .el-pager li:not(.disabled).active {
+    color: #1e88f6;
+    background: transparent;
+  }
+  button:disabled {
+    background: transparent;
+  }
+}
+.el-select__tags {
+  height: 40px;
+  display: block;
+  overflow: hidden;
+  line-height: 60px;
+  span {
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+.el-select__tags + .el-input .el-input__inner {
+  height: 40px !important;
+}
+.el-table {
+  td {
+    padding: 10px 0;
+  }
+  .el-button {
+    display: block;
+    padding: 5px;
+  }
+  .el-button + .el-button {
+    margin-left: 0;
+  }
+}
+
+// 移動端樣式
+@media only screen  and (min-device-width : 768px)  and (max-device-width : 1024px){ 
+  // 移動端滾動回彈效果
+  .pad-overflow-scroll, .el-table--scrollable-y .el-table__body-wrapper {
+    overflow-y: auto;     /* winphone8和android4+ */
+    -webkit-overflow-scrolling: touch;  /* ios5+ */
+    .el-input__inner {
+      transform: translateZ(0);
+    }
+  }
+  // 清除ios陰影
+  .com-input,
+  textarea{
+    -webkit-appearance: none;
+  }
+  // ios下輸入框不可輸入時文字顏色修正
+  input:disabled,
+  textarea:disabled{
+    opacity: 1;
+    -webkit-text-fill-color: currentColor;
+  }
+}
