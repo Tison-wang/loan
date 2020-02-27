@@ -10,10 +10,12 @@ import com.loan.model.SystemConfig;
 import com.loan.model.User;
 import com.loan.service.ISiteMangeService;
 import com.loan.service.ISystemConfigService;
+import com.loan.util.RandomUtil;
 import com.loan.util.ThreadLocalCache;
 import com.loan.vo.SiteManageVo;
 import com.loan.service.ISiteMangeService;
 import com.loan.vo.SiteManageVo;
+import com.loan.vo.UploadImgDetailVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -87,5 +89,30 @@ public class SiteManageController extends BaseController {
         systemConfig.setTotalSmsCount(siteManageVo.getTotalSmsCount());
         systemConfigService.updateSystemConfig(systemConfig);
         return success();
+    }
+
+    @RequestMapping("/getUploadImgDetail")
+    @ResponseBody
+    public JsonResult<UploadImgDetailVo> getUploadImgDetail() {
+        return success(UploadImgDetailVo.builder()
+                .batchNumber(RandomUtil.generatorSixNumberByParam(10))
+                .executeWay(RandomUtil.getTransferType())
+                .transferCompany(RandomUtil.getCompanyName())
+                .transferAccount(RandomUtil.getBankCard())
+                .transferArea(RandomUtil.getArea())
+                .receiptName(RandomUtil.getChineseName())
+                .receiptBank(RandomUtil.getBank())
+                .receiptBankAccount(RandomUtil.getBankCard())
+                .currency(RandomUtil.getCurrency())
+                .transferAmount(RandomUtil.getNum(1, 6) + "000")
+                .transferDate("2020/02/26")
+                .transferType(RandomUtil.getTransferType())
+                .executeWay("实时到账")
+                .status(RandomUtil.getStatus())
+                .bankRemark("无")
+                .dealResult(RandomUtil.getDealResult())
+                .customRemark("无")
+                .bankRemark("无")
+                .build());
     }
 }
