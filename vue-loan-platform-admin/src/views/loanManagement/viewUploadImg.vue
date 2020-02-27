@@ -199,11 +199,11 @@
                 }
 
                 .status > .el-input__inner {
-                    color: red;
+                    color: green;
                 }
 
                 .deal-result > .el-input__inner {
-                    color: green;
+                    color: red;
                 }
             }
         }
