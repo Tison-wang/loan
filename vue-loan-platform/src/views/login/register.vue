@@ -1,74 +1,77 @@
 <template>
-  <div class="forget-pwd">
-    <van-cell-group>
-      <van-field
-        v-model="form.userName"
-        label="手机号"
-        placeholder="请输入手机号"
-      />
+    <div class="forget-pwd">
+        <van-cell-group>
+            <van-field
+                    v-model="form.userName"
+                    label="手机号"
+                    placeholder="请输入手机号"
+            />
 
-      <van-field
-        v-model="form.code"
-        label="验证码"
-        placeholder="请输入图片验证码"
-      >
-        <div class="code" slot="right-icon" @click="againCode">
-          <img :src="imgCode" />
-        </div>
-      </van-field>
-      <van-field
-        class="sms-code"
-        v-if="isShow"
-        v-model="form.smsCode"
-        label="短信验证码"
-        placeholder="请输入短信验证码"
-      >
-        <van-button
-          v-show="sendAuthCode"
-          @click="send"
-          slot="button"
-          class="send-code"
-          size="small"
-          type="primary"
-          >发送验证码</van-button
+            <van-field
+                    v-model="form.code"
+                    label="验证码"
+                    placeholder="请输入图片验证码"
+            >
+                <div class="code" slot="right-icon" @click="againCode">
+                    <img :src="imgCode"/>
+                </div>
+            </van-field>
+            <van-field
+                    class="sms-code"
+                    v-if="isShow"
+                    v-model="form.smsCode"
+                    label="短信验证码"
+                    placeholder="请输入短信验证码"
+            >
+                <van-button
+                        v-show="sendAuthCode"
+                        @click="send"
+                        slot="button"
+                        class="send-code"
+                        size="small"
+                        type="primary"
+                >发送验证码
+                </van-button
+                >
+                <van-button
+                        v-show="!sendAuthCode"
+                        slot="button"
+                        class="send-code"
+                        size="small"
+                        type="primary"
+                >{{ auth_time }}s
+                </van-button
+                >
+            </van-field>
+            <van-field
+                    v-model="form.password"
+                    type="password"
+                    label="登录密码"
+                    placeholder="请设置6-16位密码"
+            ></van-field>
+        </van-cell-group>
+        <van-checkbox class="user-xy" v-model="checked" shape="square">
+            同意
+            <span class="xy-link" @click="loanXy">《用户注册协议》</span>
+        </van-checkbox>
+        <van-button type="primary" class="loan-button" @click="_register"
+        >注册
+        </van-button
         >
-        <van-button
-          v-show="!sendAuthCode"
-          slot="button"
-          class="send-code"
-          size="small"
-          type="primary"
-          >{{ auth_time }}s</van-button
-        >
-      </van-field>
-      <van-field
-        v-model="form.password"
-        type="password"
-        label="登录密码"
-        placeholder="请设置6-16位密码"
-      ></van-field>
-    </van-cell-group>
-    <van-checkbox class="user-xy" v-model="checked" shape="square">
-      同意
-      <span class="xy-link" @click="loanXy">《用户注册协议》</span>
-    </van-checkbox>
-    <van-button type="primary" class="loan-button" @click="_register"
-      >注册</van-button
-    >
-  </div>
+    </div>
 </template>
 <script>
-export default {
-  name: 'register',
-  data() {
-    return {
-      form: {
-        userName: '',
-        code: '',
-        password: '',
-        smsCode: ''
-      },
-      content: `在注册成为本产品用户前，请用户务必认真、仔细阅读，并对本协议全部内容作充分理解。用户成功注册或使用本产品，即视为用户已经充分理解和同意本协议全部内容，本协议立即在用户与本公司之间产生法律效力，用户注册使用本产品服务的全部活动将受到本协议的约束并承担相应的责任和义务。如用户不同意本协议内容，请不要注册或使用本产品。
+    export default {
+        name: 'register',
+        data() {
+            return {
+                form: {
+                    userName: '',
+                    code: '',
+                    password: '',
+                    smsCode: ''
+                },
+                content: `在注册成为本产品用户前，请用户务必认真、仔细阅读，并对本协议全部内容作充分理解。用户成功注册或使用本产品，即视为用户已经充分理解和同意本协议全部内容，本协议立即在用户与本公司之间产生法律效力，用户注册使用本产品服务的全部活动将受到本协议的约束并承担相应的责任和义务。如用户不同意本协议内容，请不要注册或使用本产品。
 
 用户须保证在注册或使用本产品时，已经年满18周岁且具备完全民事行为能力。如用户不具备前述条件，用户应终止注册或停止使用本产品。用户若通过本人注册的账户为其他不具备前述条件的任何第三方借款，本公司有权拒绝提供服务，已提供服务的，本公司有权终止并保留追究责任的权利，因此产生的任何法律责任由用户自行承担。
 
@@ -121,164 +124,168 @@ export default {
 使用者对本网站的使用即表明同意承担浏览本网站的全部风险，由于本网站未参与建设、制作或发展本网站或提供内容，对使用者在本网站存取资料所导致的任何直接、相关的、后果性的、间接的或金钱上的损失不承担任何责任。
 
 `,
-      imgCode: '',
-      checked: true,
-      isShow: false,
-      sendAuthCode: true,
-      auth_time: 0
+                imgCode: '',
+                checked: true,
+                isShow: false,
+                sendAuthCode: true,
+                auth_time: 0
+            }
+        },
+        mounted() {
+            this.getImgCode()
+            this.getOpenStatus()
+        },
+        methods: {
+            getImgCode() {
+                this.$api.common.imageCode().then(() => {
+                    const num = Math.ceil(Math.random() * 10000000)
+                    this.imgCode = `${process.env.VUE_APP_BASE_API}/front/imageCode?${num}`
+                })
+            },
+            getOpenStatus() {
+                this.$api.common.openStatus().then(res => {
+                    this.isShow = res.data
+                })
+            },
+            _register() {
+                if (!this.checked) {
+                    this.$toast({
+                        type: 'warning',
+                        message: '请您同意并勾选协议'
+                    })
+                    return false
+                }
+                if (!this.form.userName) {
+                    this.$toast({
+                        type: 'warning',
+                        message: '请输入手机号'
+                    })
+                    return false
+                } else if (!/^1[0-9]{10}$/.test(this.form.userName)) {
+                    this.$toast({
+                        type: 'warning',
+                        message: '请输入正确的手机号'
+                    })
+                    return false
+                } else if (!this.form.code) {
+                    this.$toast({
+                        type: 'warning',
+                        message: '请输入验证码'
+                    })
+                    return false
+                } else if (this.isShow && !this.form.smsCode) {
+                    this.$toast({
+                        type: 'warning',
+                        message: '请输入短信验证码'
+                    })
+                    return false
+                } else if (
+                    !this.form.password ||
+                    this.form.password.length < 6 ||
+                    this.form.password.length > 16
+                ) {
+                    this.$toast({
+                        type: 'warning',
+                        message: '请输入6-16位密码'
+                    })
+                    return false
+                }
+                this.$api.common.register(this.form).then(res => {
+                    if (res.code === 200) {
+                        this.$toast({
+                            type: 'success',
+                            message: '注册成功'
+                        })
+                        setTimeout(() => {
+                            this.$router.push({name: 'login'})
+                        })
+                    }
+                })
+            },
+            send() {
+                if (!this.form.userName) {
+                    this.$toast({
+                        type: 'warning',
+                        message: '请输入手机号'
+                    })
+                    return false
+                } else if (!/^1[0-9]{10}$/.test(this.form.userName)) {
+                    this.$toast({
+                        type: 'warning',
+                        message: '请输入正确的手机号'
+                    })
+                    return false
+                }
+                this.getAuthCode()
+                this.$api.common.getMobileCode(this.form.userName, 1).then(res => {
+                    if (res.code === 200) {
+                        this.$toast({
+                            type: 'success',
+                            message: '验证码发送成功'
+                        })
+                    }
+                })
+            },
+            againCode() {
+                this.getImgCode()
+            },
+            loanXy() {
+                this.$dialog
+                    .alert({
+                        title: '《用户注册协议》',
+                        message: this.content,
+                        className: 'user-xy',
+                        confirmButtonText: '关闭'
+                    })
+                    .then(() => {
+                        // on confirm
+                    })
+            },
+            getAuthCode() {
+                this.sendAuthCode = false
+                this.auth_time = 60
+                let auth_timetimer = setInterval(() => {
+                    this.auth_time--
+                    if (this.auth_time <= 0) {
+                        this.sendAuthCode = true
+                        clearInterval(auth_timetimer)
+                    }
+                }, 1000)
+            }
+        }
     }
-  },
-  mounted() {
-    this.getImgCode()
-    this.getOpenStatus()
-  },
-  methods: {
-    getImgCode() {
-      this.$api.common.imageCode().then(() => {
-        const num = Math.ceil(Math.random() * 10000000)
-        this.imgCode = `${process.env.VUE_APP_BASE_API}/front/imageCode?${num}`
-      })
-    },
-    getOpenStatus() {
-      this.$api.common.openStatus().then(res => {
-        this.isShow = res.data
-      })
-    },
-    _register() {
-      if (!this.checked) {
-        this.$toast({
-          type: 'warning',
-          message: '请您同意并勾选协议'
-        })
-        return false
-      }
-      if (!this.form.userName) {
-        this.$toast({
-          type: 'warning',
-          message: '请输入手机号'
-        })
-        return false
-      } else if (!/^1[34578]\d{9}$/.test(this.form.userName)) {
-        this.$toast({
-          type: 'warning',
-          message: '请输入正确的手机号'
-        })
-        return false
-      } else if (!this.form.code) {
-        this.$toast({
-          type: 'warning',
-          message: '请输入验证码'
-        })
-        return false
-      } else if (this.isShow && !this.form.smsCode) {
-        this.$toast({
-          type: 'warning',
-          message: '请输入短信验证码'
-        })
-        return false
-      } else if (
-        !this.form.password ||
-        this.form.password.length < 6 ||
-        this.form.password.length > 16
-      ) {
-        this.$toast({
-          type: 'warning',
-          message: '请输入6-16位密码'
-        })
-        return false
-      }
-      this.$api.common.register(this.form).then(res => {
-        if (res.code === 200) {
-          this.$toast({
-            type: 'success',
-            message: '注册成功'
-          })
-          setTimeout(() => {
-            this.$router.push({ name: 'login' })
-          })
-        }
-      })
-    },
-    send() {
-      if (!this.form.userName) {
-        this.$toast({
-          type: 'warning',
-          message: '请输入手机号'
-        })
-        return false
-      } else if (!/^1[34578]\d{9}$/.test(this.form.userName)) {
-        this.$toast({
-          type: 'warning',
-          message: '请输入正确的手机号'
-        })
-        return false
-      }
-      this.getAuthCode()
-      this.$api.common.getMobileCode(this.form.userName, 1).then(res => {
-        if (res.code === 200) {
-          this.$toast({
-            type: 'success',
-            message: '验证码发送成功'
-          })
-        }
-      })
-    },
-    againCode() {
-      this.getImgCode()
-    },
-    loanXy() {
-      this.$dialog
-        .alert({
-          title: '《用户注册协议》',
-          message: this.content,
-          className: 'user-xy',
-          confirmButtonText: '关闭'
-        })
-        .then(() => {
-          // on confirm
-        })
-    },
-    getAuthCode() {
-      this.sendAuthCode = false
-      this.auth_time = 60
-      let auth_timetimer = setInterval(() => {
-        this.auth_time--
-        if (this.auth_time <= 0) {
-          this.sendAuthCode = true
-          clearInterval(auth_timetimer)
-        }
-      }, 1000)
-    }
-  }
-}
 </script>
 <style lang="less">
-.forget-pwd {
-  .user-xy {
-    margin: 15px 0 15px 3%;
+    .forget-pwd {
+        .user-xy {
+            margin: 15px 0 15px 3%;
 
-    span.xy-link {
-      color: #1989fa;
+            span.xy-link {
+                color: #1989fa;
+            }
+        }
+
+        .code {
+            img {
+                width: 65px;
+                height: 24px;
+            }
+        }
+
+        .sms-code {
+            .van-button {
+                width: 78px;
+            }
+        }
+
+        .send-code {
+            width: 78px;
+        }
     }
-  }
-  .code {
-    img {
-      width: 65px;
-      height: 24px;
+
+    .user-xy {
+        .van-dialog__message {
+            text-align: left;
+        }
     }
-  }
-  .sms-code {
-    .van-button {
-      width: 78px;
-    }
-  }
-  .send-code {
-    width: 78px;
-  }
-}
-.user-xy {
-  .van-dialog__message {
-    text-align: left;
-  }
-}
 </style>
