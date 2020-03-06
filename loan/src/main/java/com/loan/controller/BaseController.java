@@ -7,6 +7,7 @@ import com.loan.model.JsonResult;
 import com.loan.util.JsonResultUtil;
 import com.loan.model.JsonResult;
 import com.loan.util.JsonResultUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
@@ -94,6 +95,7 @@ public class BaseController {
         //后缀名
         String suffixName = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
         String path = upload.getAbsolutePath() + File.separator + uuid + "." + suffixName;
+        logger.info("文件上传路径：fileName={},path={}", fileName, path);
         //开始将源文件写入目标地址
         Files.write(Paths.get(path), bytes);
         //加密文件路径
