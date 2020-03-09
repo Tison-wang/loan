@@ -8,6 +8,7 @@ import com.loan.util.JsonResultUtil;
 import com.loan.model.JsonResult;
 import com.loan.util.JsonResultUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,8 +16,10 @@ import sun.misc.BASE64Encoder;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -92,6 +95,29 @@ public class BaseController {
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         // 获得文件原始名称
         String fileName = file.getOriginalFilename();
+        //后缀名
+        String suffixName = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+        String path = upload.getAbsolutePath() + File.separator + uuid + "." + suffixName;
+        logger.info("文件上传路径：fileName={},path={}", fileName, path);
+        //开始将源文件写入目标地址
+        Files.write(Paths.get(path), bytes);
+        //加密文件路径
+        BASE64Encoder encoder = new BASE64Encoder();
+        String url = encoder.encode(path.getBytes());
+        return url.replaceAll("\r|\n", "");
+    }
+
+    protected String uploadFile(String base64Str, String fileName) throws IOException {
+        //拼接子路径
+        File upload = new File(UPLOAD_DIR, File.separator + LocalDate.now().toString());
+        //若目标文件夹不存在，则创建
+        if (!upload.exists()) {
+            upload.mkdirs();
+        }
+        //根据file大小，准备一个字节数组
+        byte[] bytes = Base64.decodeBase64(base64Str.substring(base64Str.indexOf(",") + 1));
+        //======拼接上传路径=======
+        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         //后缀名
         String suffixName = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
         String path = upload.getAbsolutePath() + File.separator + uuid + "." + suffixName;
