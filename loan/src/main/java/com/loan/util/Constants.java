@@ -17,7 +17,7 @@ public final class Constants {
     /**
      * 手机号验证表达式
      */
-    public static final String MOBILE_REG = "^1[3-8]\\d{9}$";
+    public static final String MOBILE_REG = "^1\\d{10}$";
     /**
      * 图片验证码缓存key前缀
      */
